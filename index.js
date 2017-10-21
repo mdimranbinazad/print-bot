@@ -7,7 +7,18 @@ const ip = require("ip");
 const bodyParser = require('body-parser');
 const path = require('path');
 const rootPath = __dirname;
+
 const printer = require('printer');
+const fonts = {
+	Roboto: {
+		normal: 'fonts/Roboto-Regular.ttf',
+		bold: 'fonts/Roboto-Medium.ttf',
+		italics: 'fonts/Roboto-Italic.ttf',
+		bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+	}
+};
+const pdfmake = new (require('pdfmake'))(fonts);
+const fs = require('fs');
 
 app.set('port', 6031);
 app.set('view engine', 'pug');
@@ -33,23 +44,46 @@ app.get('/', function(req,res){
   });
 })
 
+function getPDF(code, reqIp){
+  const docDef = {
+    header: function(currentPage, pageCount) {
+      return currentPage.toString() + ' of ' + pageCount + ` from ${reqIp}`;
+    },
+    content: {
+      text: code,
+      preserveLeadingSpaces: true
+    },
+    pageSize: 'A4',
+  };
+
+
+  const pdfDoc = pdfmake.createPdfKitDocument(docDef);
+  return pdfDoc;
+}
+
 app.post('/printCode', function(req,res){
+  const code = req.body.code;
   const reqIp = getReqIp(req);
-  printer.printDirect({
-    data: req.body.code,
-    type: 'TEXT',
-    options: {
-      media: 'A4'
-    },
-    success: function(jobID){
-     console.log("Sent to printer with ID: "+ jobID);
-     return res.send('Sent to printer');
-    },
-    error: function(err){
-      console.log(err);
-      return res.send('Some error occured. Please try again.');
-    }
-  })
+  const pdfDoc = getPDF(code, reqIp);
+
+  pdfDoc.pipe(fs.createWriteStream('pdfs/basics.pdf'));
+  pdfDoc.end();
+  res.send('pdf created');
+  // printer.printDirect({
+  //   data: req.body.code,
+  //   type: 'TEXT',
+  //   options: {
+  //     media: 'A4'
+  //   },
+  //   success: function(jobID){
+  //    console.log("Sent to printer with ID: "+ jobID);
+  //    return res.send('Sent to printer');
+  //   },
+  //   error: function(err){
+  //     console.log(err);
+  //     return res.send('Some error occured. Please try again.');
+  //   }
+  // })
 })
 
 app.use(function(err, req, res, next) {
