@@ -12,13 +12,17 @@ const fonts = {
 const pdfmake = new (require('pdfmake'))(fonts);
 const base64 = require('base64-stream');
 const router = express.Router();
-const printTest = true;
+const printTest = false;
+const ip = require('ip');
 
 function getReqIp(req){
-  return ( req.headers['x-forwarded-for'] ||
+  let reqIp = ( req.headers['x-forwarded-for'] ||
      req.connection.remoteAddress ||
      req.socket.remoteAddress ||
      req.connection.socket.remoteAddress ).split(':')[3];
+
+  if ( !reqIp ) reqIp = ip.address();
+  return reqIp;
 }
 
 router.get('/', function(req,res){
@@ -93,11 +97,6 @@ router.post('/printCode', function(req,res){
       return res.send('Testing mode.');
     }
   });
-
-})
-
-router.get('/printers', function(req,res){
-  res.send(printer.getPrinters())
 })
 
 module.exports = {

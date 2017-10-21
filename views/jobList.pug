@@ -1,0 +1,27 @@
+doctype html
+html(lang='en')
+  head
+
+    title Print Server
+
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
+
+    script(src="https://code.jquery.com/jquery-3.2.1.min.js")
+
+
+  body
+    .container
+      table.table
+        thead
+          th Printer Name
+          th Job ID
+          th Status
+          th Delete
+        tbody
+          each job in jobQ
+            tr
+              td= job.printerName
+              td= job.jobID
+              td= job.status
+              td
+                a(href=`/jobs/delete/${job.printerName}/${job.jobID}`) Delete

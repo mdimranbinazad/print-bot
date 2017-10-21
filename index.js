@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({
 })); // support encoded bodies
 
 require('./controllers/user.js').addRouter(app);
+require('./controllers/admin.js').addRouter(app);
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
