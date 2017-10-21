@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+  head
+
+    title Print Server
+
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
+
+
+  body
+    .container
+      .row
+        .col
+          h1 Print Server
+        .col.text-right
+          h3= ip
+      form(action='/printCode', method='post')
+        .row
+          .col
+            .form-group
+              label(for='code') Code
+              textarea#code.form-control(name='code', style="height:500px;")
+        .row
+          .col.text-center
+            input.btn.btn-primary.mr-1.disableOnClick(type='submit', value='Print')

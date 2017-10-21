@@ -1,0 +1,19 @@
+{
+  "name": "print-server",
+  "version": "0.0.0",
+  "description": "a print server for icpc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mohammad Samiul Islam <forthright48@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "ip": "^1.1.5",
+    "node-gyp": "^3.6.2",
+    "printer": "^0.2.2",
+    "pug": "^2.0.0-rc.4"
+  }
+}
