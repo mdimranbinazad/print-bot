@@ -3,7 +3,7 @@ extends layout.pug
 block content
   .row
     .col-6.offset-3
-      form(action='/login', method='post')
+      form(action='/user/login', method='post')
         .form-group
           label(for="username") User Name
           input(placeholder="Enter Username", name="username").form-control#username

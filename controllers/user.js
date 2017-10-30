@@ -32,8 +32,9 @@ router.get('/', login, handler_index);
 router.post('/printCode', login, handler_post_printCode);
 
 function handler_index (req,res){
-  return res.render('layout', {
-    ip: getReqIp(req)
+  return res.render('home', {
+    ip: getReqIp(req),
+    username: req.session.username
   });
 }
 
