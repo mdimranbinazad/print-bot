@@ -1,5 +1,7 @@
 const express = require('express');
 const fs = require('fs');
+const config = require('config');
+const middlewares = config.middlewares;
 const printer = require('printer');
 const fonts = {
 	Roboto: {
@@ -25,7 +27,7 @@ function getReqIp(req){
   return reqIp;
 }
 
-router.get('/', function(req,res){
+router.get('/', middlewares.login, function(req,res){
   return res.render('layout', {
     ip: getReqIp(req)
   });
