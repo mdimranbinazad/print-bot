@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 })); // support encoded bodies
 
 require('./config/database.js');
-require('./config/session.js');
+require('./config/session.js').addSession(app);
 
 require('./controllers/user.js').addRouter(app);
 require('./controllers/admin.js').addRouter(app);

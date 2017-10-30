@@ -17,6 +17,7 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "ip": "^1.1.5",
+    "lodash": "^4.17.4",
     "mongoose": "^4.12.5",
     "node-gyp": "^3.6.2",
     "pdfmake": "^0.1.33",
