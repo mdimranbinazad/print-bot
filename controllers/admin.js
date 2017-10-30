@@ -2,11 +2,15 @@ const express = require('express');
 const printer = require('printer');
 const router = express.Router();
 
-router.get('/printers', function(req,res){
-  res.send(printer.getPrinters())
-})
+router.get('/printers', handler_printers);
+router.get('/jobs', handler_jobs);
+router.get('/jobs/delete/:printerName/:jobId', handler_jobs_delete);
 
-router.get('/jobs', function(req,res){
+function handler_printers (req,res){
+  res.send(printer.getPrinters());
+}
+
+function handler_jobs (req,res){
   const details = printer.getPrinters();
 
   const jobQ = [];
@@ -21,15 +25,14 @@ router.get('/jobs', function(req,res){
       })
     }
   })
-
   return res.render('jobList', {jobQ} );
-})
+}
 
-router.get('/jobs/delete/:printerName/:jobId', function(req,res){
+function handler_jobs_delete (req,res){
   const {printerName, jobId} = req.params;
   printer.setJob(printerName, parseInt(jobId), 'CANCEL');
   return res.redirect('/jobs');
-})
+}
 
 module.exports = {
   addRouter(app) {

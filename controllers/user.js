@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const config = require('config');
 const middlewares = config.middlewares;
+const login = middlewares.login;
 const printer = require('printer');
 const fonts = {
 	Roboto: {
@@ -27,12 +28,14 @@ function getReqIp(req){
   return reqIp;
 }
 
-router.get('/', middlewares.login, function(req,res){
+router.get('/', login, handler_index);
+router.post('/printCode', login, handler_post_printCode);
+
+function handler_index (req,res){
   return res.render('layout', {
     ip: getReqIp(req)
   });
-})
-
+}
 
 function saveToFile(pdfDoc) {
   pdfDoc.pipe(fs.createWriteStream('pdfs/basics.pdf'));
@@ -74,7 +77,7 @@ function getPDFString(code, reqIp, cb){
   }
 }
 
-router.post('/printCode', function(req,res){
+function handler_post_printCode (req,res){
   const code = req.body.code;
   const reqIp = getReqIp(req);
 
@@ -99,7 +102,7 @@ router.post('/printCode', function(req,res){
       return res.send('Testing mode.');
     }
   });
-})
+}
 
 module.exports = {
   addRouter(app) {
