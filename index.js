@@ -22,6 +22,7 @@ require('./config/session.js');
 
 require('./controllers/user.js').addRouter(app);
 require('./controllers/admin.js').addRouter(app);
+require('./controllers/login.js').addRouter(app);
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);

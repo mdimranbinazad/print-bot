@@ -1,0 +1,14 @@
+extends layout.pug
+
+block content
+  .row
+    .col-6.offset-3
+      form
+        .form-group
+          label(for="username") User Name
+          input(placeholder="Enter Username").form-control#username
+        .form-group
+          label(for="password") Password
+          input(placeholder="Enter Password").form-control#password
+        .text-center
+          button(type="submit").btn.btn-primary Login

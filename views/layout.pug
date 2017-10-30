@@ -8,22 +8,15 @@ html(lang='en')
 
     script(src="https://code.jquery.com/jquery-3.2.1.min.js")
 
+    block head
 
-  body
-    .container
-      .row
-        .col
-          h1 Print Server
-        .col.text-right
-          h3= ip
-      form(action='/printCode', method='post')
-        .row
-          .col
-            .form-group
-              label(for='code') Code
-              textarea#code.form-control(name='code', style="height:500px;")
-        .row
-          .col.text-center
-            input.btn.btn-primary.mr-1.disableOnClick(type='submit', value='Print')
+    body
+      .container
+        include partials/header.pug
 
-    script(src="/js/script.js", defer)
+        .px-2
+          block content
+
+        include partials/footer.pug
+
+      block scripts
