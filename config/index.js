@@ -1,4 +1,5 @@
 module.exports = {
-  secretModule: require('../secret.js'),
-  middlewares: require('../middlewares')
+  secretModule: require('../secret/secret.js'),
+  middlewares: require('../middlewares'),
+  credentials: require('./credentials')
 };
