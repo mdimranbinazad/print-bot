@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({
 require('./config/database.js');
 require('./config/session.js').addSession(app);
 
+app.use(require('./middlewares/passSession'));
+
 require('./controllers/user.js').addRouter(app);
 require('./controllers/admin.js').addRouter(app);
 require('./controllers/login.js').addRouter(app);
