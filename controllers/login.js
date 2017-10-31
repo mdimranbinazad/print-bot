@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const user_pass = require('config').user_info.password;
+const user_printer = require('config').user_info.printer;
 const _ = require('lodash');
 
 router.get('/login', handler_login);
@@ -20,6 +21,7 @@ function hander_post_login (req,res){
 
   req.session.username = username;
   req.session.login = true;
+  req.session.printer = user_printer[username];
 
   return res.redirect('/');
 }

@@ -22,7 +22,7 @@ require('./config/session.js').addSession(app);
 
 app.use(require('./middlewares/passSession'));
 
-require('./controllers/user.js').addRouter(app);
+require('./controllers/print.js').addRouter(app);
 require('./controllers/admin.js').addRouter(app);
 require('./controllers/login.js').addRouter(app);
 

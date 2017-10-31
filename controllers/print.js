@@ -82,11 +82,14 @@ function handler_post_printCode (req,res){
   const code = req.body.code;
   const reqIp = getReqIp(req);
 
+  console.log(req.session.printer);
+
   getPDFString(code, reqIp, function(err, pdfString){
     if ( !printTest ) {
       printer.printDirect({
         data: pdfString,
         type: 'PDF',
+        printer: req.session.printer,
         options: {
           media: 'A4'
         },

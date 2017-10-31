@@ -18,8 +18,6 @@ for ( let i = 0; i < credentials.length; i++ ) {
   printer[credentials[i].username] = printer_name[credentials[i].printer];
 }
 
-console.log(printer);
-
 module.exports = {
   password,
   printer
