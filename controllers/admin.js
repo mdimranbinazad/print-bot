@@ -1,13 +1,14 @@
 const express = require('express');
 const printer = require('printer');
 const router = express.Router();
+const _ = require('lodash');
 
 router.get('/printers', handler_printers);
 router.get('/jobs', handler_jobs);
 router.get('/jobs/delete/:printerName/:jobId', handler_jobs_delete);
 
 function handler_printers (req,res){
-  res.send(printer.getPrinters());
+  res.send(_.map(printer.getPrinters(), 'name'));
 }
 
 function handler_jobs (req,res){

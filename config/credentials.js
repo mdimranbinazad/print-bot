@@ -1,6 +1,7 @@
 const csv_parse = require('csv-parse/lib/sync');
 const fs = require('fs');
 const path = require('path');
+const printer_name = require('../secret/printer');
 
 const file = fs.readFileSync(path.join(__dirname, '../secret/credentials.csv'), {
   encoding: 'UTF8'
@@ -14,8 +15,10 @@ const password = {};
 const printer = {};
 for ( let i = 0; i < credentials.length; i++ ) {
   password[credentials[i].username] = credentials[i].password;
-  printer[credentials[i].username] = credentials[i].printer;
+  printer[credentials[i].username] = printer_name[credentials[i].printer];
 }
+
+console.log(printer);
 
 module.exports = {
   password,
