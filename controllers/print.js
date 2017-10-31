@@ -2,7 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const config = require('config');
 const middlewares = config.middlewares;
-const login = middlewares.login;
+const {login} = middlewares;
+const Log = require('mongoose').model('Log');
 const printer = require('printer');
 const fonts = {
 	Roboto: {
@@ -82,8 +83,6 @@ function handler_post_printCode (req,res){
   const code = req.body.code;
   const reqIp = getReqIp(req);
 
-  console.log(req.session.printer);
-
   getPDFString(code, reqIp, function(err, pdfString){
     if ( !printTest ) {
       printer.printDirect({
@@ -94,8 +93,19 @@ function handler_post_printCode (req,res){
           media: 'A4'
         },
         success: function(jobID){
-          console.log("Sent to printer with ID: "+ jobID);
-          return res.send('Sent to printer');
+          console.log(`${req.session.username} printed with jobID ${jobID}`);
+          const log = new Log({
+            username: req.session.username,
+            code,
+            printer: req.session.printer,
+            jobID
+          });
+          log.save().then(function(){
+            return res.send('Sent to printer');
+          }, function(err){
+            console.log(`Failed to log print request from ${req.session.username} with jobID ${jobID}`);
+            return res.send("Sent to printer");
+          })
         },
         error: function(err){
           console.log(err);

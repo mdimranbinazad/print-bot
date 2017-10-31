@@ -17,11 +17,16 @@ app.use(bodyParser.urlencoded({
   extended: true
 })); // support encoded bodies
 
+
+/**models**/
 require('./config/database.js');
+require('./models/log')
+
 require('./config/session.js').addSession(app);
 
 app.use(require('./middlewares/passSession'));
 
+/**controllers**/
 require('./controllers/print.js').addRouter(app);
 require('./controllers/admin.js').addRouter(app);
 require('./controllers/login.js').addRouter(app);
