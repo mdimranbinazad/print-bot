@@ -10,10 +10,14 @@ const credentials = csv_parse(file,{
   columns: true
 });
 
-const credentials_map = {};
-
+const password = {};
+const printer = {};
 for ( let i = 0; i < credentials.length; i++ ) {
-  credentials_map[credentials[i].username] = credentials[i].password;
+  password[credentials[i].username] = credentials[i].password;
+  printer[credentials[i].username] = credentials[i].printer;
 }
 
-module.exports = credentials_map;
+module.exports = {
+  password,
+  printer
+}
