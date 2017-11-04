@@ -5,4 +5,7 @@
     h1.text-center Print Server
   if login == true
     .col.text-right
+      if status == "admin"
+        a(href="/admin/dashboard") Dashboard
+        span &nbsp; &nbsp;
       a(href="/user/logout") Logout

@@ -34,8 +34,7 @@ router.post('/printCode', login, handler_post_printCode);
 
 function handler_index (req,res){
   return res.render('home', {
-    ip: getReqIp(req),
-    username: req.session.username
+    ip: getReqIp(req)
   });
 }
 
@@ -43,13 +42,13 @@ function saveToFile(pdfDoc) {
   pdfDoc.pipe(fs.createWriteStream('pdfs/basics.pdf'));
 }
 
-function getPDFString(code, reqIp, cb){
+function getPDFString(code, username, cb){
   let totalPages = 0;
   const docDef = {
     header: function(currentPage, pageCount) {
       totalPages = pageCount;
       return {
-        text: currentPage.toString() + ' of ' + pageCount + ` from ${reqIp}`
+        text: currentPage.toString() + ' of ' + pageCount + ` from ${username}`
       };
     },
     content: {
@@ -90,7 +89,7 @@ function handler_post_printCode (req,res){
   const code = req.body.code;
   const reqIp = getReqIp(req);
 
-  getPDFString(code, reqIp, function(err, pdfObj){
+  getPDFString(code, req.session.username, function(err, pdfObj){
     const {pdfString, pdfPageCount} = pdfObj;
 
     if ( pdfPageCount > config.pagePerPrintLimit ) {
@@ -130,7 +129,7 @@ function handler_post_printCode (req,res){
         }
       })
     } else {
-      res.flash('info', 'Testing mode');
+      req.flash('info', 'Testing mode');
       return res.redirect('/');
     }
   });

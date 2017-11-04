@@ -1,8 +1,10 @@
 extends layout.pug
 
 block content
-  .row
+  .row#fill-view
     .col-6.offset-3
+      .text-center
+        h2 Login
       form(action='/user/login', method='post')
         .form-group
           label(for="username") User Name

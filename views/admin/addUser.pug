@@ -1,0 +1,19 @@
+extends ../layout.pug
+
+block content
+  .row#fill-view
+    .col
+      form(action='/admin/dashboard/addUsers', method='post')
+        .row
+          .col
+            .form-group
+              label(for='usercsv')
+              textarea#usercsv.form-control(name='usercsv', style="height:500px;").
+                Upload a csv file content here to add users. Users who already exist in db, will be updated. New users will be inserted. Users not present in the text provided will be unaltered. Enter each user with the following format: Username, Password, Printer An Example is provided below.
+
+
+                samiul, 12345, 0
+                forthright48, 54321, 1
+        .row
+          .col.text-center
+            input.btn.btn-primary.mr-1.disableOnClick(type='submit', value='Add Users')

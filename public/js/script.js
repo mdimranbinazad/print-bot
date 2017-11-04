@@ -39,3 +39,18 @@ for (const val in flash) {
     $.notify(flash[val][i], val);
   }
 }
+
+/**Vertical Centering**/
+(function(){
+  var windowHeight = $(window).height();
+  var htmlHeight = $('html').height();
+
+  $('#fill-view').addClass('align-items-center');
+  var fillView = $('#fill-view').height();
+  if (htmlHeight + 5 < windowHeight) {
+    var dif = windowHeight - htmlHeight;
+    $('#fill-view').animate({
+      "min-height": fillView + dif
+    }, 300);
+  }
+})();

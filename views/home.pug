@@ -1,12 +1,14 @@
 extends layout.pug
 
 block content
-  form(action='/printCode', method='post')
-    .row
-      .col
-        .form-group
-          label(for='code')
-          textarea#code.form-control(name='code', style="height:500px;") Paste code here
-    .row
-      .col.text-center
-        input.btn.btn-primary.mr-1.disableOnClick(type='submit', value='Print')
+  .row#fill-view
+    .col
+      form(action='/printCode', method='post')
+        .row
+          .col
+            .form-group
+              label(for='code')
+              textarea#code.form-control(name='code', style="height:500px;") Paste code here
+        .row
+          .col.text-center
+            input.btn.btn-primary.mr-1.disableOnClick(type='submit', value='Print')

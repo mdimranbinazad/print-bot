@@ -1,0 +1,9 @@
+extends ../layout.pug
+
+block content
+  .row.align-items-center#fill-view.justify-content-center
+    .col.text-center
+      h2 Dashboard
+      .list-group.d-inline-flex
+        a(href='/admin/dashboard/addUser').list-group-item.list-group-item-action
+          span Add User

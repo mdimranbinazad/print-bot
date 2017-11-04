@@ -2,10 +2,13 @@ const express = require('express');
 const printer = require('printer');
 const router = express.Router();
 const _ = require('lodash');
+const isAdmin = require('config').middlewares.isAdmin;
 
 router.get('/printers', handler_printers);
 router.get('/jobs', handler_jobs);
 router.get('/jobs/delete/:printerName/:jobId', handler_jobs_delete);
+router.get('/dashboard', get_dashboard);
+router.get('/dashboard/addUser', get_dashboard_addUser);
 
 function handler_printers (req,res){
   res.send(_.map(printer.getPrinters(), 'name'));
@@ -32,11 +35,19 @@ function handler_jobs (req,res){
 function handler_jobs_delete (req,res){
   const {printerName, jobId} = req.params;
   printer.setJob(printerName, parseInt(jobId), 'CANCEL');
-  return res.redirect('/jobs');
+  return res.redirect('/admin/jobs');
+}
+
+function get_dashboard(req, res){
+  return res.render('admin/dashboard');
+}
+
+function get_dashboard_addUser(req, res){
+  return res.render('admin/addUser');
 }
 
 module.exports = {
   addRouter(app) {
-    app.use('/', router);
+    app.use('/admin', isAdmin, router);
   }
 };
