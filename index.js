@@ -20,7 +20,8 @@ app.use(bodyParser.urlencoded({
 
 /**models**/
 require('./config/database.js');
-require('./models/log')
+require('./models/log');
+require('./models/user');
 
 require('./config/session.js').addSession(app);
 
