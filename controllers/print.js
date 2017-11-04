@@ -44,8 +44,10 @@ function saveToFile(pdfDoc) {
 }
 
 function getPDFString(code, reqIp, cb){
+  let totalPages = 0;
   const docDef = {
     header: function(currentPage, pageCount) {
+      totalPages = pageCount;
       return {
         text: currentPage.toString() + ' of ' + pageCount + ` from ${reqIp}`
       };
@@ -71,7 +73,10 @@ function getPDFString(code, reqIp, cb){
 
   stream.on('end', function() {
     const buf = Buffer.from(finalString,'base64');
-    cb(null, buf);
+    cb(null, {
+      pdfString: buf,
+      pdfPageCount: totalPages
+    });
   });
 
   if ( printTest ) {
@@ -85,7 +90,13 @@ function handler_post_printCode (req,res){
   const code = req.body.code;
   const reqIp = getReqIp(req);
 
-  getPDFString(code, reqIp, function(err, pdfString){
+  getPDFString(code, reqIp, function(err, pdfObj){
+    const {pdfString, pdfPageCount} = pdfObj;
+
+    if ( pdfPageCount > config.pagePerPrintLimit ) {
+      return res.send(`You are trying to print ${pdfPageCount} pages. You can only print ${config.pagePerPrintLimit} pages at once.`);
+    }
+
     if ( !printTest ) {
       printer.printDirect({
         data: pdfString,
@@ -103,10 +114,10 @@ function handler_post_printCode (req,res){
             jobID
           });
           log.save().then(function(){
-            return res.send('Sent to printer');
+            return res.send(`Sent to printer. You have printed ${pdfPageCount} page.`);
           }, function(err){
             console.log(`Failed to log print request from ${req.session.username} with jobID ${jobID}`);
-            return res.send("Sent to printer");
+            return res.send(`Sent to printer. You have printed ${pdfPageCount} page.`);
           })
         },
         error: function(err){

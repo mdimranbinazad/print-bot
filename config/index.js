@@ -1,5 +1,12 @@
+const {
+  secret,
+  pagePerPrintLimit,
+  totalPageLimit
+} = require('../secret/config');
+
 module.exports = {
-  secretModule: require('../secret/secret.js'),
+  secret,
+  pagePerPrintLimit,
   middlewares: require('../middlewares'),
   user_info: require('./credentials')
 };

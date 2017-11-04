@@ -1,7 +1,7 @@
 const csv_parse = require('csv-parse/lib/sync');
 const fs = require('fs');
 const path = require('path');
-const printer_name = require('../secret/printer');
+const printer_name = require('../secret/config').printers;
 
 const file = fs.readFileSync(path.join(__dirname, '../secret/credentials.csv'), {
   encoding: 'UTF8'
