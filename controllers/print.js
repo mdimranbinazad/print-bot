@@ -94,7 +94,8 @@ function handler_post_printCode (req,res){
     const {pdfString, pdfPageCount} = pdfObj;
 
     if ( pdfPageCount > config.pagePerPrintLimit ) {
-      return res.send(`You are trying to print ${pdfPageCount} pages. You can only print ${config.pagePerPrintLimit} pages at once.`);
+      req.flash('error', `You are trying to print ${pdfPageCount} pages. You can only print ${config.pagePerPrintLimit} pages at once.` );
+      return res.redirect('/');
     }
 
     if ( !printTest ) {
@@ -114,19 +115,23 @@ function handler_post_printCode (req,res){
             jobID
           });
           log.save().then(function(){
-            return res.send(`Sent to printer. You have printed ${pdfPageCount} page.`);
+            req.flash('info', `Sent to printer. You have printed ${pdfPageCount} page.` );
+            return res.redirect('/');
           }, function(err){
             console.log(`Failed to log print request from ${req.session.username} with jobID ${jobID}`);
-            return res.send(`Sent to printer. You have printed ${pdfPageCount} page.`);
+            req.flash('info', `Sent to printer. You have printed ${pdfPageCount} page.` );
+            return res.redirect('/');
           })
         },
         error: function(err){
           console.log(err);
-          return res.send('Some error occured. Please try again.');
+          req.flash('error', 'Some error occured. Please try again.');
+          return res.redirect('/');
         }
       })
     } else {
-      return res.send('Testing mode.');
+      res.flash('info', 'Testing mode');
+      return res.redirect('/');
     }
   });
 }
