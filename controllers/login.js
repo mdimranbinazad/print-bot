@@ -27,7 +27,8 @@ function hander_post_login (req,res){
       })
   })
   .catch(function(err){
-    return res.send(err.message);
+    req.flash("error", err.message);
+    return res.redirect('/user/login');
   })
 }
 

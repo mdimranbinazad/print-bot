@@ -4,9 +4,8 @@ html(lang='en')
 
     title Print Server
 
-    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
+    link(rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css")
 
-    script(src="https://code.jquery.com/jquery-3.2.1.min.js")
 
     block head
 
@@ -19,4 +18,8 @@ html(lang='en')
 
         include partials/footer.pug
 
-      block scripts
+      script(src="/vendor/jquery/jquery-3.2.1.min.js", defer)
+      script(src="/vendor/notifyjs/notify.min.js", defer)
+      script.
+        var flash = !{flash};
+      script(src="/js/script.js", defer)

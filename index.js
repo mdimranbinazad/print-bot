@@ -23,8 +23,12 @@ require('./config/database.js');
 require('./models/log');
 require('./models/user');
 
+/**Session and flash**/
 require('./config/session.js').addSession(app);
+app.use(require('connect-flash')());
 
+/**Middlewares**/
+app.use(require('./middlewares/flash'));
 app.use(require('./middlewares/passSession'));
 
 /**controllers**/

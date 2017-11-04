@@ -1,6 +1,5 @@
 extends layout.pug
 
-
 block content
   form(action='/printCode', method='post')
     .row
@@ -11,7 +10,3 @@ block content
     .row
       .col.text-center
         input.btn.btn-primary.mr-1.disableOnClick(type='submit', value='Print')
-
-
-block scripts
-  script(src="/js/script.js", defer)
