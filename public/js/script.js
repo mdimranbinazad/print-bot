@@ -6,4 +6,16 @@ function tabToSpace() {
 
 $('#code').on('input', tabToSpace );
 
-console.log('script ok');
+function disableOnClick(){
+  $('.disableOnClick').on('click', (function() {
+    const clickedItems = {};
+    return function() {
+      if (clickedItems[this]) return false;
+      clickedItems[this] = true;
+      $(this).addClass('disabled');
+      return true;
+    };
+  }()));
+};
+
+disableOnClick();

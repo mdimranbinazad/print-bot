@@ -46,7 +46,9 @@ function saveToFile(pdfDoc) {
 function getPDFString(code, reqIp, cb){
   const docDef = {
     header: function(currentPage, pageCount) {
-      return currentPage.toString() + ' of ' + pageCount + ` from ${reqIp}`;
+      return {
+        text: currentPage.toString() + ' of ' + pageCount + ` from ${reqIp}`
+      };
     },
     content: {
       text: code,
