@@ -38,8 +38,8 @@ require('./controllers/login.js').addRouter(app);
 
 app.use(function(err, req, res, next) {
   console.error(err.stack);
-  res.status(500).send('Something broke!');
-  next();
+  req.flash('error', 'Some error occured. Check console');
+  return res.redirect('/');
 });
 
 app.get('*', function(req, res) {

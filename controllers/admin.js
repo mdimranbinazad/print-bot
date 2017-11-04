@@ -3,12 +3,15 @@ const printer = require('printer');
 const router = express.Router();
 const _ = require('lodash');
 const isAdmin = require('config').middlewares.isAdmin;
+const csv_parse = require('csv-parse');
+const User = require('mongoose').model('User');
 
 router.get('/printers', handler_printers);
 router.get('/jobs', handler_jobs);
 router.get('/jobs/delete/:printerName/:jobId', handler_jobs_delete);
 router.get('/dashboard', get_dashboard);
 router.get('/dashboard/addUser', get_dashboard_addUser);
+router.post('/dashboard/addUser', post_dashboard_addUser);
 
 function handler_printers (req,res){
   res.send(_.map(printer.getPrinters(), 'name'));
@@ -44,6 +47,44 @@ function get_dashboard(req, res){
 
 function get_dashboard_addUser(req, res){
   return res.render('admin/addUser');
+}
+
+function post_dashboard_addUser(req, res, next){
+  const csv = req.body.usercsv;
+
+  csv_parse(csv,{columns: null},function(err, users){
+    if ( err ) {
+      return next(err);
+    }
+    const hashArr = _.map(users,function(user){
+      return User.createHash(user[1]);
+    })
+    Promise.all(hashArr)
+      .then(function(hash){
+        return _.map(users, function(user, index){
+          return new User({
+            username: user[0],
+            password: hash[index],
+            printer: user[2]
+          }).save();
+        })
+      })
+      .then(function(userPromise){
+        ///Before saving new users, remove all users with status "users"
+        return User.remove({status: "user"})
+          .then(function(){
+            return Promise.all(userPromise)
+              .then(function(){
+                req.flash('success', 'Users created.')
+                return res.redirect('/admin/dashboard');
+              })
+          })
+      }).catch(function(err){
+        console.log(err);
+        req.flash('error', 'Some error occured. Check console.');
+        return res.redirect('/admin/dashboard/addUser');
+      })
+  })
 }
 
 module.exports = {
