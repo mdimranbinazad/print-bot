@@ -8,6 +8,8 @@
   if login == true
     .col.text-right
       if status == "admin"
+        a(href="/") Home
+        span &nbsp; &nbsp;
         a(href="/admin/dashboard") Dashboard
         span &nbsp; &nbsp;
       a(href="/user/logout") Logout

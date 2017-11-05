@@ -1,6 +1,15 @@
 extends layout.pug
 
 block content
+  .row.mx-0
+    .col.alert-info
+      b Informations
+      ul
+        li Paste your code in the text below and press "Print" button to send a print request.
+        li You can print at most 10 pages with a single print request.
+        li You can send multiple print request.
+        li You cannot print more than 50 pages in total.
+        li You can view the number of pages you have printed at top left corner.
   .row#fill-view
     .col
       form(action='/printCode', method='post')
