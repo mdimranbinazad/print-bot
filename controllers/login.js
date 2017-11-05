@@ -23,6 +23,8 @@ function hander_post_login (req,res){
         req.session.username = username;
         req.session.status = user.status;
         req.session.printer = printer_names[user.printer];
+        req.session.totalPageLimit = user.totalPageLimit;
+        req.session.pagePrinted = user.pagePrinted;
         return res.redirect('/');
       })
   })

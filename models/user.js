@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const config = require('config');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -26,6 +27,11 @@ const userSchema = new mongoose.Schema({
     type: Number,
     required: true,
     default: 0
+  },
+  totalPageLimit: {
+    type: Number,
+    required: true,
+    default: config.totalPageLimit
   }
 }, {
   timestamps: true

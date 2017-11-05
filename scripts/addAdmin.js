@@ -27,23 +27,32 @@ promise.then(function(db) {
 
   warning();
 
+  function deleteSession(){
+    return mongoose.connection.db.collection('sessions').remove({});
+  }
+
   rl.question('Enter username for admin: ', function(username){
     warning();
     rl.question('Enter password for admin: ', function(password){
-      User.createHash(password).then(function(pass){
+      User.createHash(password)
+      .then(function(pass){
         password = pass;
         return User.remove();
-      }).then(function(){
+      })
+      .then(deleteSession)
+      .then(function(){
         const user = new User({
           username,
           password,
           status: 'admin'
         });
         return user.save();
-      }).then(function(){
+      })
+      .then(function(){
         console.log(`Admin created`);
         process.exit();
-      }).catch(function(err){
+      })
+      .catch(function(err){
         console.log(`Some error occured`);
         process.exit();
       })

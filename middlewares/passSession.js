@@ -1,6 +1,8 @@
+const _ = require('lodash');
+
 module.exports = function(req, res, next) {
-  res.locals.login = req.session.login;
-  res.locals.username = req.session.username;
-  res.locals.status = req.session.status;
+  _.forEach(req.session, function(value, key){
+    res.locals[key] = value;
+  })
   next();
 }
