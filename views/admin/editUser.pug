@@ -1,0 +1,25 @@
+extends ../layout.pug
+
+block content
+  .text-center
+    h2 Edit User
+  .row#fill-view
+    .col-6.offset-3
+      form(action=`/admin/editUser/${user.username.toString()}`, method="post")
+        .form-group
+          label(for='username') Username
+          input#username.form-control(type='text', value=user.username.toString(), name='username', disabled)
+        .form-group
+          label(for='status') Status
+          input#status.form-control(type='text', value=user.status.toString(), name='status', disabled)
+        .form-group
+          label(for='printer') Printer
+          input#printer.form-control(type='number', value=user.printer.toString(), name='printer', required)
+        .form-group
+          label(for='pagePrinted') Page Printed
+          input#pagePrinted.form-control(type='number', value=user.pagePrinted.toString(), name='pagePrinted', required)
+        .form-group
+          label(for='totalPageLimit') Total Page Limit
+          input#totalPageLimit.form-control(type='number', value=user.totalPageLimit.toString(), name='totalPageLimit', required)
+        .text-center
+          input.btn.btn-primary(type="submit", value="Update")

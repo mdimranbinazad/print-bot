@@ -1,0 +1,28 @@
+extends ../layout.pug
+
+block content
+  .row#fill-view
+    .col
+      .text-center
+        h2 User List
+      table.table
+        thead
+          th Index
+          th Username
+          th Status
+          th Printer
+          th Page Printed
+          th Page Limit
+          th Edit
+        tbody
+          each user, index in users
+            tr
+              td= index
+              td= user.username
+              td= user.status
+              td= user.printer
+              td= user.pagePrinted
+              td= user.totalPageLimit
+              td
+                a(href=`/admin/editUser/${user.username}`)
+                  i.fa.fa-edit

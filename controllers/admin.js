@@ -14,6 +14,9 @@ router.get('/dashboard', get_dashboard);
 router.get('/dashboard/addUser', get_dashboard_addUser);
 router.post('/dashboard/addUser', post_dashboard_addUser);
 router.get('/logoutAll', get_logoutAll);
+router.get('/userList', get_userList);
+router.get('/editUser/:username', get_editUser_Username);
+router.post('/editUser/:username', post_editUser_Username);
 
 function handler_printers (req,res){
   res.send(_.map(printer.getPrinters(), 'name'));
@@ -116,6 +119,43 @@ function get_logoutAll(req, res){
       req.flash('error', 'Some error occured');
       return res.redirect('/admin/dashboard');
     })
+}
+
+function get_userList(req, res, next){
+  User.find().exec()
+    .then(function(users){
+      users.sort(function(a,b){
+        return a.username.localeCompare(b.username);
+      })
+      return res.render('admin/userList', {users});
+    })
+    .catch(next);
+}
+
+function get_editUser_Username(req, res, next){
+  const username = req.params.username;
+  User.findOne({username}).exec()
+    .then(function(user){
+      if (!user) throw new Error('No such username');
+      return res.render('admin/editUser', {user});
+    })
+    .catch(next)
+}
+
+function post_editUser_Username(req, res, next){
+  const username = req.params.username;
+  const updateFields = {
+    printer: req.body.printer,
+    pagePrinted: req.body.pagePrinted,
+    totalPageLimit: req.body.totalPageLimit
+  }
+  User.findOneAndUpdate({username},{$set:updateFields}).exec()
+    .then(function(oldUser){
+      if (!oldUser) throw new Error('No such username');
+      req.flash('success', 'Update successful');
+      return res.redirect('/admin/userList');
+    })
+    .catch(next);
 }
 
 module.exports = {
