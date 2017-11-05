@@ -1,15 +1,25 @@
 .row.p-2
   .col-4
     if login == true
-      p= username
-      p= `Page Printed: ${pagePrinted}/${totalPageLimit}`
+      p
+        i.fa.fa-user.mr-2
+        span= username
+      p
+        i.fa.fa-print.mr-2
+        span= `${pagePrinted}/${totalPageLimit}`
   .col-4
     h1.text-center Print Server
   if login == true
     .col.text-right
       if status == "admin"
-        a(href="/") Home
+        a(href="/")
+          i.fa.fa-home.mr-2
+          span Home
         span &nbsp; &nbsp;
-        a(href="/admin/dashboard") Dashboard
+        a(href="/admin/dashboard")
+          i.fa.fa-dashboard.mr-2
+          span Dashboard
         span &nbsp; &nbsp;
-      a(href="/user/logout") Logout
+      a(href="/user/logout")
+          i.fa.fa-sign-out.mr-2
+          span Logout
