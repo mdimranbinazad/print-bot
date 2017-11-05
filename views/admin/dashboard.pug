@@ -11,6 +11,9 @@ block content
         a(href='/admin/jobs').list-group-item.list-group-item-action
           i.fa.fa-list-ul.mr-2
           span Job List
+        a(href='/admin/logoutAll', onclick="return confirm('Are you sure you want to logout everyone except you?')").list-group-item.list-group-item-action
+          i.fa.fa-sign-out.mr-2
+          span Logout All
         a(href='/admin/printers').list-group-item.list-group-item-action
           i.fa.fa-print.mr-2
           span Printers

@@ -13,6 +13,7 @@ router.get('/jobs/delete/:printerName/:jobId', handler_jobs_delete);
 router.get('/dashboard', get_dashboard);
 router.get('/dashboard/addUser', get_dashboard_addUser);
 router.post('/dashboard/addUser', post_dashboard_addUser);
+router.get('/logoutAll', get_logoutAll);
 
 function handler_printers (req,res){
   res.send(_.map(printer.getPrinters(), 'name'));
@@ -103,6 +104,18 @@ function post_dashboard_addUser(req, res, next){
         return res.redirect('/admin/dashboard/addUser');
       })
   })
+}
+
+function get_logoutAll(req, res){
+  deleteSession()
+    .then(function(){
+      req.flash('success', 'Everyone has been logged off except you');
+      return res.redirect('/admin/dashboard');
+    })
+    .catch(function(err){
+      req.flash('error', 'Some error occured');
+      return res.redirect('/admin/dashboard');
+    })
 }
 
 module.exports = {
