@@ -31,7 +31,7 @@ function getReqIp(req){
 }
 
 router.get('/', login, handler_index);
-router.post('/printCode', login, handler_post_printCode);
+router.post('/', login, handler_post_index);
 
 function handler_index (req,res){
   return res.render('home', {
@@ -86,12 +86,16 @@ function getPDFString(code, username, cb){
   }
 }
 
-function handler_post_printCode (req,res){
+function handler_post_index (req,res){
   const code = req.body.code;
   const reqIp = getReqIp(req);
 
+  if ( code.length >= 5000 * config.pagePerPrintLimit ) {
+    req.flash('error', `You cannot print more than ${config.pagePerPrintLimit} pages at once.`);
+    return res.redirect('/');
+  }
   if (req.session.pagePrinted >= req.session.totalPageLimit) {
-    req.flash('error', `You cannot print more pages`);
+    req.flash('error', `You have hit your total page limit. You cannot print more pages.`);
     return res.redirect('/');
   }
 
@@ -130,13 +134,13 @@ function handler_post_printCode (req,res){
                 }}).exec();
           })
           .then(function(){
-            req.flash('info', `Sent to printer. You have printed ${pdfPageCount} page.` );
+            req.flash('info', `Sent to printer. You have printed ${pdfPageCount} page(s).` );
             return res.redirect('/');
           })
           .catch(function(err){
             console.log(`Failed to log print request from ${req.session.username} with jobID ${jobID}`);
             console.log(err);
-            req.flash('info', `Sent to printer. You have printed ${pdfPageCount} page.` );
+            req.flash('info', `Sent to printer. You have printed ${pdfPageCount} page(s).` );
             return res.redirect('/');
           })
         },

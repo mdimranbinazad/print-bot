@@ -9,10 +9,11 @@ block content
         li You can print at most 10 pages with a single print request.
         li You can send multiple print request.
         li You cannot print more than 50 pages in total.
+        li You cannot print codes larger than 100KB size.
         li You can view the number of pages you have printed at top left corner.
   .row#fill-view
     .col
-      form(action='/printCode', method='post')
+      form(action='/', method='post')
         .row
           .col
             .form-group

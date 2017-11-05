@@ -12,20 +12,20 @@ app.set('views', path.join(rootPath, './views'));
 
 app.use('/', express.static(path.join(rootPath, '/public')));
 
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({
-  extended: true
-})); // support encoded bodies
-
 
 /**models**/
 require('./config/database.js');
 require('./models/log');
 require('./models/user');
 
-/**Session and flash**/
+/**Application wide middlewares**/
 require('./config/session.js').addSession(app);
 app.use(require('connect-flash')());
+app.use(bodyParser.json({limit: '100kb'})); // support json encoded bodies
+app.use(bodyParser.urlencoded({
+  extended: true,
+  limit: '100kb'
+})); // support encoded bodies
 
 /**Middlewares**/
 app.use(require('./middlewares/flash'));
@@ -37,13 +37,18 @@ require('./controllers/admin.js').addRouter(app);
 require('./controllers/login.js').addRouter(app);
 
 app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  req.flash('error', 'Some error occured. Check console');
+  console.error(err);
+  if (err.name === 'PayloadTooLargeError' ) {
+    req.flash('error', 'Your code is too big');
+  } else {
+    req.flash('error', 'Some error occured');
+  }
   return res.redirect('/');
 });
 
 app.get('*', function(req, res) {
-  return res.status(404).send('Page not found\n');
+  req.flash('error', 'Page not found');
+  return res.status(404).redirect('/');
 });
 
 if (require.main === module) {
