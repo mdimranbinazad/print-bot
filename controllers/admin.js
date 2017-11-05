@@ -56,11 +56,19 @@ function post_dashboard_addUser(req, res, next){
     if ( err ) {
       return next(err);
     }
+    // Trim the strings
+    users = _.map(users, function(user){
+      return _.map(user,function(str){
+        return _.trim(str);
+      })
+    })
+    // Hash the passwords
     const hashArr = _.map(users,function(user){
       return User.createHash(user[1]);
     })
     Promise.all(hashArr)
       .then(function(hash){
+        // Convert to User model and save them
         return _.map(users, function(user, index){
           return new User({
             username: user[0],
