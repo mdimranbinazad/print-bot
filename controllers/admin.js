@@ -4,7 +4,8 @@ const router = express.Router();
 const _ = require('lodash');
 const isAdmin = require('config').middlewares.isAdmin;
 const csv_parse = require('csv-parse');
-const User = require('mongoose').model('User');
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
 
 router.get('/printers', handler_printers);
 router.get('/jobs', handler_jobs);
@@ -49,6 +50,14 @@ function get_dashboard_addUser(req, res){
   return res.render('admin/addUser');
 }
 
+/**
+ * Remove all documents from sessions collection
+ * @return {Promise}
+ */
+function deleteSession(){
+  return mongoose.connection.db.collection('sessions').remove({});
+}
+
 function post_dashboard_addUser(req, res, next){
   const csv = req.body.usercsv;
 
@@ -78,8 +87,9 @@ function post_dashboard_addUser(req, res, next){
         })
       })
       .then(function(userPromise){
-        ///Before saving new users, remove all users with status "users"
+        // Before saving new users, remove all users with status "users"
         return User.remove({status: "user"})
+          .then(deleteSession) // Logout users
           .then(function(){
             return Promise.all(userPromise)
               .then(function(){

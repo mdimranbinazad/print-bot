@@ -1,6 +1,8 @@
 .row.p-2
   .col-4
-    span= username
+    if login == true
+      p= username
+      p= `Page Printed: ${pagePrinted}/${totalPage}`
   .col-4
     h1.text-center Print Server
   if login == true
