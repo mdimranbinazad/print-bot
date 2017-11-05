@@ -18,6 +18,7 @@ const base64 = require('base64-stream');
 const router = express.Router();
 const printTest = false;
 const ip = require('ip');
+const User = require('mongoose').model('User');
 
 function getReqIp(req){
   let reqIp = ( req.headers['x-forwarded-for'] ||
@@ -89,6 +90,11 @@ function handler_post_printCode (req,res){
   const code = req.body.code;
   const reqIp = getReqIp(req);
 
+  if (req.session.pagePrinted >= req.session.totalPageLimit) {
+    req.flash('error', `You cannot print more pages`);
+    return res.redirect('/');
+  }
+
   getPDFString(code, req.session.username, function(err, pdfObj){
     const {pdfString, pdfPageCount} = pdfObj;
 
@@ -113,11 +119,23 @@ function handler_post_printCode (req,res){
             printer: req.session.printer,
             jobID
           });
-          log.save().then(function(){
+          log.save()
+          .then(function(){
+            req.session.pagePrinted += pdfPageCount;
+            return User.findOneAndUpdate({
+                username: req.session.username
+              },{
+                $set:{
+                  pagePrinted: req.session.pagePrinted
+                }}).exec();
+          })
+          .then(function(){
             req.flash('info', `Sent to printer. You have printed ${pdfPageCount} page.` );
             return res.redirect('/');
-          }, function(err){
+          })
+          .catch(function(err){
             console.log(`Failed to log print request from ${req.session.username} with jobID ${jobID}`);
+            console.log(err);
             req.flash('info', `Sent to printer. You have printed ${pdfPageCount} page.` );
             return res.redirect('/');
           })

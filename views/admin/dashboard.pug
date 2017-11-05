@@ -6,17 +6,32 @@ block content
       h2 Dashboard
       .list-group.d-inline-flex
         a(href='/admin/dashboard/addUser').list-group-item.list-group-item-action
-          i.fa.fa-user-plus.mr-2
-          span Add User
+          .row
+            .col-2
+              i.fa.fa-user-plus.mr-2
+            .col
+              span Add User
         a(href='/admin/jobs').list-group-item.list-group-item-action
-          i.fa.fa-list-ul.mr-2
-          span Job List
+          .row
+            .col-2
+              i.fa.fa-list-ul.mr-2
+            .col
+              span Job List
         a(href='/admin/logoutAll', onclick="return confirm('Are you sure you want to logout everyone except you?')").list-group-item.list-group-item-action
-          i.fa.fa-sign-out.mr-2
-          span Logout All
+          .row
+            .col-2
+              i.fa.fa-sign-out.mr-2
+            .col
+              span Logout All
         a(href='/admin/printers').list-group-item.list-group-item-action
-          i.fa.fa-print.mr-2
-          span Printers
+          .row
+            .col-2
+              i.fa.fa-print.mr-2
+            .col
+              span Printers
         a(href='/admin/userList').list-group-item.list-group-item-action
-          i.fa.fa-users.mr-2
-          span User List
+          .row
+            .col-2
+              i.fa.fa-users.mr-2
+            .col
+              span User List

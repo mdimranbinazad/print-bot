@@ -1,17 +1,21 @@
 extends layout.pug
 
 block content
-  table.table
-    thead
-      th Printer Name
-      th Job ID
-      th Status
-      th Delete
-    tbody
-      each job in jobQ
-        tr
-          td= job.printerName
-          td= job.jobID
-          td= job.status
-          td
-            a(href=`/admin/jobs/delete/${job.printerName}/${job.jobID}`) Delete
+  .row#fill-view
+    .col
+      .text-center
+        h2 Job List
+      table.table
+        thead
+          th Printer Name
+          th Job ID
+          th Status
+          th Delete
+        tbody
+          each job in jobQ
+            tr
+              td= job.printerName
+              td= job.jobID
+              td= job.status
+              td
+                a(href=`/admin/jobs/delete/${job.printerName}/${job.jobID}`) Delete
