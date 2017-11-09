@@ -107,6 +107,11 @@ function handler_post_index (req,res){
       return res.redirect('/');
     }
 
+    if ( req.session.pagePrinted + pdfPageCount > req.session.totalPageLimit ) {
+      req.flash('error', `You have hit your total page limit. You cannot print more pages.`);
+      return res.redirect('/');
+    }
+
     if ( !printTest ) {
       printer.printDirect({
         data: pdfString,

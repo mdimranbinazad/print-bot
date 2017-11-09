@@ -5,5 +5,6 @@ module.exports = {
     "find out your printer names and paste them here as a list"
   ],
   pagePerPrintLimit: 10,
-  totalPageLimit: 50
+  totalPageLimit: 50,
+  port: 900,
 }

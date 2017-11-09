@@ -3,6 +3,7 @@ const {
   pagePerPrintLimit = 10,
   totalPageLimit = 50,
   printer_names,
+  port = 8080,
 } = require('../secret/config');
 
 module.exports = {
@@ -10,5 +11,6 @@ module.exports = {
   pagePerPrintLimit,
   printer_names,
   totalPageLimit,
-  middlewares: require('../middlewares')
+  port,
+  middlewares: require('../middlewares'),
 };
