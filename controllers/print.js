@@ -53,7 +53,7 @@ function getPDFString(code, username, cb){
       };
     },
     content: {
-      text: code,
+      text: 'Team ID: ' + username + '\n\n\n' + code,
       preserveLeadingSpaces: true
     },
     pageSize: 'A4',
