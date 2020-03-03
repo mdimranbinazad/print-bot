@@ -49,11 +49,11 @@ function getPDFString(code, username, cb){
     header: function(currentPage, pageCount) {
       totalPages = pageCount;
       return {
-        text: currentPage.toString() + ' of ' + pageCount + ` from ${username}`
+        text: '>\n>>>>>> Page '+currentPage.toString() + ' of ' + pageCount + ` from ${username}`
       };
     },
     content: {
-      text: 'Team ID: ' + username + '\n\n\n' + code,
+      text: 'Team ID: ' + username + '\n\n' + code,			
       preserveLeadingSpaces: true
     },
     pageSize: 'A4',
