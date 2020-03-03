@@ -6,11 +6,11 @@ const {login} = middlewares;
 const Log = require('mongoose').model('Log');
 const printer = require('printer');
 const fonts = {
-	Roboto: {
-		normal: 'fonts/Roboto-Regular.ttf',
-		bold: 'fonts/Roboto-Medium.ttf',
-		italics: 'fonts/Roboto-Italic.ttf',
-		bolditalics: 'fonts/Roboto-MediumItalic.ttf'
+	UbuntuMono: {
+		normal: 'fonts/UbuntuMono-Regular.ttf',
+		bold: 'fonts/UbuntuMono-Medium.ttf',
+		italics: 'fonts/UbuntuMono-Italic.ttf',
+		bolditalics: 'fonts/UbuntuMono-MediumItalic.ttf'
 	}
 };
 const pdfmake = new (require('pdfmake'))(fonts);

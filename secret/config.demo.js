@@ -1,10 +1,9 @@
 module.exports = {
-  secret: "some secret key used for encryption and etc",
+  secret: "printbot",
   printer_names: [
-    "the printers that you will use for printing",
-    "find out your printer names and paste them here as a list"
+    "HP-LaserJet-M402dn"
   ],
   pagePerPrintLimit: 10,
   totalPageLimit: 50,
-  port: 900,
+  port: 8080,
 }
