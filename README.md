@@ -1,3 +1,6 @@
+# A detailed guideline
+https://docs.google.com/document/d/1sUNHRAD8zYN1kRlZoHsennLgx_AbICHJQWB_CfI6Wuc/
+
 https://github.com/tojocky/node-printer/issues/126
 
 # Required packages
