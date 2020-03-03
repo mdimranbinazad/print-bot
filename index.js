@@ -5,7 +5,7 @@ const server = require('http').createServer(app);
 const bodyParser = require('body-parser');
 const path = require('path');
 const rootPath = __dirname;
-const config = require('config');
+const config = require('./config');
 
 app.set('port', config.port);
 app.set('view engine', 'pug');

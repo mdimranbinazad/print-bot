@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
 const User = require('mongoose').model('User');
-const printer_names = require('config').printer_names;
+const printer_names = require('../config').printer_names;
 
 router.get('/login', handler_login);
 router.post('/login', hander_post_login);

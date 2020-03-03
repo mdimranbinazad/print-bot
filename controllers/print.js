@@ -1,6 +1,6 @@
 const express = require('express');
 const fs = require('fs');
-const config = require('config');
+const config = require('../config');
 const middlewares = config.middlewares;
 const {login} = middlewares;
 const Log = require('mongoose').model('Log');
